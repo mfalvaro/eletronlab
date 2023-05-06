@@ -237,6 +237,13 @@ class ComentDelete(DeleteView):
 class TemaComentCreate(CreateView):
     model = TemaComent
     fields = ['tema', 'coment']
+    tmp1=TemaComent.tema
+
+    # fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff----get_initial
+    def get_initial(self):
+        return {
+            'tema':self.request.GET.get('tema',1),
+        }
 
 
 class TemaComentDelete(DeleteView):

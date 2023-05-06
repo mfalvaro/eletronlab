@@ -3,12 +3,6 @@
 
 {% block title %}Home{% endblock %}
 
-{% block logout0 %}
-	<li>User: {{ user.get_username }}</li>
-	<li><a href="{% url 'logout' %}">-Logout-</a></li>
-{% endblock %}
-
-
 {% block content %}
 	<h1>Lab Eletrônica Home</h1>
 	<p>Bem vindo ao Laboratório de Eletrônica <em>GPS Geo</em>!</p>
