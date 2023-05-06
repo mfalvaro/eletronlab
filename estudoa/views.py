@@ -102,6 +102,7 @@ class TemaListViewSorted(generic.ListView):
     filtro_url=''
     filtro_sem=''
     filtro_cat=''
+    filtro_page=''
 
     #Lista exclusiva de categorias criando uma lista exclusiva a partir da função set do python
     filtro_lst_cat=list(set(Tema.objects.values_list("categoria")))
@@ -185,6 +186,7 @@ class TemaListViewSorted(generic.ListView):
         context['filtro_sem'] = self.filtro_sem
         context['filtro_cat'] = self.filtro_cat
         context['filtro_lst_cat'] = self.filtro_lst_cat
+        context['filtro_page'] = self.filtro_page
         return context
 
 # ##################################################################################################################################
