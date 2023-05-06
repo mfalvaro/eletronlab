@@ -1,0 +1,15 @@
+<!-- templates\estudoa\coment_confirm_delete.html-->
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Apagar comentário</h1>
+
+<p>Tem certeza que deseja apagar o comentário: {{ coment }}?</p>
+
+<form action="" method="POST">
+  {% csrf_token %}
+  <input type="submit" value="Sim, apagar.">
+</form>
+
+{% endblock %}

@@ -1,0 +1,77 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Laboratório de Eletrônica{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <!-- Add additional CSS in static file -->
+  {% load static %}
+  {% block estilo %}{% endblock %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+  <main>
+	  <div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-2">
+				<p>{% now "l, j \d\e F \d\e Y H:i" %}</p>
+				{% block sidebar %}
+					<ul class="sidebar-nav">
+					<li><a href="{% url 'home' %}">Home</a></li>
+					<li>.</li>
+					<li>.</li>
+					{% if user.is_authenticated %}
+						<li><a href="{% url 'temas' %}">Temas</a></li>
+						<li><a href="{% url 'coments' %}">Comentários</a></li>
+						<li><a href="{% url 'temacoments' %}">Temas e seus comentários</a></li>
+						<li>.</li>
+						<li>.</li>
+						
+						{% block logout0 %}
+						{% endblock %}
+						
+					{% else %}
+						<li>.</li>
+						<li>.</li>
+						<li><a href="{% url 'login' %}">Login</a></li>
+					{% endif %}
+					</ul>
+				{% endblock %}
+			</div>
+			<div class="col-sm-10 ">
+			{% if user.is_authenticated %}
+				{% block content %}
+				{% endblock %}
+				{% block pagination %}
+					{% if is_paginated %}
+						<div class="pagination">
+						<span class="page-links">
+						{% if page_obj.has_previous %}
+							<a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+						{% else %}
+							previous
+						{% endif %}
+						<span class="page-current">
+						Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+						</span>
+						{% if page_obj.has_next %}
+							<a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+						{% else %}
+							next
+						{% endif %}
+						</span>
+						</div>
+					{% endif %}
+				{% endblock %}
+			{% else %}
+				{% block content1 %}
+				{% endblock %}
+			{% endif %}
+			</div>
+		</div>
+	  </div>
+  </main>
+</body>
+</html>

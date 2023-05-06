@@ -1,0 +1,36 @@
+<!-- templates/coment_list.html-->
+{% extends 'base.html' %}
+
+{% block title %}Tema{% endblock %}
+
+{% block content %}
+  <h1>Tema: {{ tema.titulo }}</h1>
+
+  <p><strong>Categoria:</strong> {{ tema.categoria }}, {{ tema.pagina }} </p> <!-- author detail link not yet defined -->
+  <p><strong>Semana:</strong> {{ tema.semana }}.{{ tema.ordem }}</p>
+
+  <div style="margin-left:20px;margin-top:20px">
+    <h4>Cometários</h4>
+	  <ul>
+		{% for tc in tema.temacoment_set.all %}
+		  <li>
+			<a href="{{ tc.coment.get_absolute_url }}">{{ tc.coment.assunto }} :: {{ tc.coment.detalhe }}</a>
+		  </li>
+			 {% empty %}
+			 <p>Não há comentários para este tema.</p>
+		{% endfor %}
+	  </ul>
+  </div>
+  <div>
+    <a href="{{ tema.get_absolute_url }}/update">Editar tema...</a>
+  </div>
+  <div>
+    <a href="{% url 'temacoments' %}create">Criar novo tema/coment...</a>
+  </div>
+  
+{% endblock %}
+
+{% block content1 %}
+	<p>Faça o login para acessar o conteúdo.</p>
+{% endblock %}
+

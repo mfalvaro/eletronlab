@@ -1,0 +1,29 @@
+<!-- templates/coment_list.html-->
+{% extends 'base.html' %}
+
+{% block title %}Temas e Cometários{% endblock %}
+
+{% block content %}
+  <h1>Temas & Comentários</h1>
+  <div>
+    <h1>       </h1>
+	<a href="{% url 'temacoments' %}create">Criar novo tema/coment...</a>
+    <h1>       </h1>
+ </div>
+  {% if object_list %}
+  <ul>
+    {% for tc in object_list %}
+      <li>
+        <a href="{{ tc.get_absolute_url }}">{{ tc.tema }}::{{ tc.coment }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>Não existem temas e comentários no lab.</p>
+  {% endif %}
+{% endblock %}
+
+{% block content1 %}
+	<p>Faça o login para acessar o conteúdo.</p>
+{% endblock %}
+

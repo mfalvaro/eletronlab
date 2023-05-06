@@ -1,0 +1,133 @@
+<!-- templates/home.html-->
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block estilo %}
+	<style>
+		table {
+		  font-family: arial, sans-serif;
+		  border-collapse: collapse;
+		}
+		td, th {
+		  border: 1px solid black;
+		  text-align: center;
+		  padding: 8px;
+		}
+		tr:nth-child(even) {
+		  background-color: #dddddd;
+		}
+	</style>  
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-2">
+	  <p>{% now "l, j \d\e F \d\e Y H:i" %}</p>
+      {% block sidebar %}
+        <ul class="sidebar-nav">
+          <li><a href="{% url 'home' %}">Home</a></li>
+		  <li>.</li>
+		  <li>.</li>
+		   {% if user.is_authenticated %}
+			  <li><a href="{% url 'temas' %}">Temas</a></li>
+			  <li><a href="{% url 'coments' %}">Comentários</a></li>
+			  <li><a href="{% url 'juntos' %}">Temas e seus comentários</a></li>
+			  <li>.</li>
+			  <li>.</li>
+			 <li>User: {{ user.get_username }}</li>
+			 <li><a href="{% url 'logout' %}">-Logout-</a></li>
+		   {% else %}
+			  <li>.</li>
+			  <li>.</li>
+			 <li><a href="{% url 'login' %}">Login</a></li>
+		   {% endif %}
+        </ul>
+     {% endblock %}
+      </div>
+      <div class="col-sm-10 ">
+	  {% if user.is_authenticated %}
+		   {% block content1 %}
+				  <!-- Add additional CSS, img in static files -->
+				  {% load static %}
+				  <h1>Temas</h1>
+				  <!-- verifica se foram passados dados da tabela pela variável tema_list -->
+				  {% if tema_list %}
+					<table>
+						<!-- Cabeçalho da tabela,com a implementação da classificação ascente e descente clicando no título ou na figurinha ao lado de qq das colunas da tabela) 
+							 A lógica em views.py passa as variáveis c0 até c5 contendo o número da coluna, asc ou desc e classificado (0 ou 1), ex: '1a1', coluna 1 classificado asc ativo
+							 Por enquanto só dá para classificar, asc ou desc, apenas uma coluna por vez
+							 Nestas variáveis são aplicados filter |slice para configura a url do link e da url das imagens, pequenas setas ao lado dos títulos	-->
+						<tr>
+							<th><a href="?col={{ c0|slice:":2" }}">Id </a>       <a href="?col={{ c0|slice:":2" }}"><img src="{% static 'res/ordem' %}{{ c0|slice:"1:" }}.jpg"></a></th>
+							<th><a href="?col={{ c1|slice:":2" }}">Semana </a>   <a href="?col={{ c1|slice:":2" }}"><img src="{% static 'res/ordem' %}{{ c1|slice:"1:" }}.jpg"></a></th>
+							<th><a href="?col={{ c2|slice:":2" }}">Ordem </a>    <a href="?col={{ c2|slice:":2" }}"><img src="{% static 'res/ordem' %}{{ c2|slice:"1:" }}.jpg"></a></th>
+							<th><a href="?col={{ c3|slice:":2" }}">Título </a>   <a href="?col={{ c3|slice:":2" }}"><img src="{% static 'res/ordem' %}{{ c3|slice:"1:" }}.jpg"></a></th>
+							<th><a href="?col={{ c4|slice:":2" }}">Categoria </a><a href="?col={{ c4|slice:":2" }}"><img src="{% static 'res/ordem' %}{{ c4|slice:"1:" }}.jpg"></a></th>
+							<th><a href="?col={{ c5|slice:":2" }}">Página </a>   <a href="?col={{ c5|slice:":2" }}"><img src="{% static 'res/ordem' %}{{ c5|slice:"1:" }}.jpg"></a></th>
+						</tr>
+						<!-- loop para as linhas da tabela criando um link para cada tema individual na coluna título -->
+						{% for t in tema_list %}
+						  <tr>
+							<td>{{ t.codtema }}</td>
+							<td>{{ t.semana }}</td>
+							<td>{{ t.ordem }}</td>
+							<td><a href="{{ t.get_absolute_url }}">{{ t.titulo }}</a></td>
+							<td>{{ t.categoria }}</td>
+							<td>{{ t.pagina }}</td>
+						  </tr>
+						{% endfor %}
+					</table>
+				  {% else %}
+					  <p>Não existem temas no lab.</p>
+				  {% endif %}
+
+				 {% block pagination %}
+					  {% if is_paginated %}
+							<div class="pagination">
+							<span class="page-links">
+								{% if page_obj.has_previous %}
+									<a href="{{ request.path }}?page={{ page_obj.previous_page_number }}&col={{ col0 }}">previous</a>
+								{% else %}
+									previous
+								{% endif %}
+								<span class="page-current">
+									Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+								</span>
+								{% if page_obj.has_next %}
+									<a href="{{ request.path }}?page={{ page_obj.next_page_number }}&col={{ col0 }}">next</a>
+								{% else %}
+									next
+								{% endif %}
+							</span>
+							</div>
+					  {% endif %}
+				 {% endblock %}
+		   {% endblock %}
+      {% else %}
+			  <h1>Lab Eletrônica Home</h1>
+			  <p>Bem vindo ao Laboratório de Eletrônica <em>GPS Geo</em>!</p>
+			  <h2>Informativos</h2>
+			  <p>Banco de dados:</p>
+			  <ul>
+				<li><strong>Server:</strong> {{ db_server }}</li>
+				<li><strong>Banco de dados:</strong> {{ db_db }}</li>
+			  </ul>
+			  <p>O Laboratório está com os seguintes números:</p>
+			  <ul>
+				<li><strong>Total de temas:</strong> {{ num_temas }}</li>
+				<li><strong>Temas estudados:</strong> {{ num_temas_estudados }}</li>
+				<li><strong>Percentual de temas estudados:</strong> {{ percentual_temas_estudados }}</li>
+				<li><strong>Comentários:</strong> {{ num_temacoments }}</li>
+				<li><strong>Número de assuntos comentados:</strong> {{ num_assuntos }}</li>
+				<li><strong>Número de ci´s estudados:</strong> {{ num_cis }}</li>
+			  </ul>
+			  <p>Você visitou esta página {{ num_visits }} vez{{ num_visits|pluralize }}.</p>
+      {% endif %}
+	  </div>
+    </div>
+  </div>
+{% endblock %}
+
+
