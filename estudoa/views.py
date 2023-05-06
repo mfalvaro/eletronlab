@@ -241,6 +241,10 @@ class TemaComentCreate(CreateView):
     fields = ['tema', 'coment']
     success_url = reverse_lazy('tema-detail')
 
+    # fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff----get_success_url
+    def get_success_url(self):
+         return reverse('tema-detail', kwargs={'pk': self.request.GET.get('tema',1)})
+
     # fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff----get_initial
     def get_initial(self):
         return {
