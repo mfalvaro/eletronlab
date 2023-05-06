@@ -239,7 +239,7 @@ class ComentDelete(DeleteView):
 class TemaComentCreate(CreateView):
     model = TemaComent
     fields = ['tema', 'coment']
-    tmp1=TemaComent.tema
+    success_url = reverse_lazy('tema-detail')
 
     # fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff----get_initial
     def get_initial(self):
