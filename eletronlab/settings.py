@@ -44,8 +44,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '6-gth!ei78h8&93+wxsm(priow%r%e
 DEBUG = False
 #DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-#ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['127.0.0.1', 'eletronlab.herokuapp.com']
+ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['127.0.0.1', 'eletronlab.herokuapp.com']
 
 
 # Application definition
