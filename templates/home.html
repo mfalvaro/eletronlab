@@ -21,9 +21,23 @@
 		<li><strong>Número de assuntos comentados:</strong> {{ num_assuntos }}</li>
 		<li><strong>Número de ci´s estudados:</strong> {{ num_cis }}</li>
 	</ul>
+	
+  <h2>Circuitos integrados estudados</h2>
+  {% if cis %}
+  <ul>
+	{% for ci in cis %}
+	  <li>
+		<a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/ci/{{ ci.pinagem }}">{{ ci }}</a>
+	  </li>
+	{% endfor %}
+  </ul>
+  {% else %}
+	<p>Não existem ci´s no lab.</p>
+  {% endif %}	
 	<p>Número acessos a este link: {{ num_visits }} click{{ num_visits|pluralize }}</p>
 	<p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
 {% endblock %}
+
 {% block content1 %}
 	<h1>Lab Eletrônica Home</h1>
 	<p>Bem vindo ao Laboratório de Eletrônica <em>GPS Geo</em>!</p>
@@ -42,6 +56,17 @@
 		<li><strong>Número de assuntos comentados:</strong> {{ num_assuntos }}</li>
 		<li><strong>Número de ci´s estudados:</strong> {{ num_cis }}</li>
 	</ul>
+  <h2>Circuitos integrados estudados</h2>
+  {% if cis %}
+  <ul>
+	{% for ci in cis %}
+	  <li>
+		<a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/ci/{{ ci.pinagem }}">{{ ci }}</a>	  </li>
+	{% endfor %}
+  </ul>
+  {% else %}
+	<p>Não existem ci´s no lab.</p>
+  {% endif %}	
 {% endblock %}
 
 

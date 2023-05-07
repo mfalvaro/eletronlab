@@ -10,7 +10,7 @@
 ##-----------------------------IMPORTS------------------------------------------
 from django.shortcuts import render
 
-from .models import Coment, Tema, TemaComent
+from .models import Coment, Tema, TemaComent, Ci
 from django.db.models import Count
 from django.views import generic
 
@@ -63,6 +63,8 @@ def home(request):
     tmp2=Coment.objects.filter(assunto__exact="ci").aggregate(Count('detalhe', distinct=True))
     num_cis = tmp2['detalhe__count']
 
+    cis = Ci.objects.all()
+
     context = {
         'num_temas': num_temas,
         'num_temacoments': num_temacoments,
@@ -73,6 +75,7 @@ def home(request):
         'num_visits': num_visits,
         'db_server': db_server,
         'db_db': db_db,
+        'cis': cis,
     }
 
     # Render the HTML template index.html with the data in the context variable

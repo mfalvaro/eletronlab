@@ -76,3 +76,20 @@ class TemaComent(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
         return reverse('temacoment-detail', args=[str(self.codtema_coment)])
+
+# ########################################################################################################################################################################################
+class Ci(models.Model):
+    codci = models.CharField(db_column='Codci', primary_key=True, max_length=15, blank=True, null=False, help_text='Nome do circuito integrado')
+    semana = models.IntegerField(db_column='Semana', blank=True, null=True)
+    sobre = models.CharField(db_column='Sobre', max_length=75, blank=True, null=True, help_text='Sobre o circuito integrado')
+    pinagem = models.CharField(db_column='Pinagem', max_length=25, blank=True, null=True, help_text='Figura da pinagem do ci')
+
+    class Meta:
+        managed = False
+        db_table = 'ci'
+        ordering = ['semana']
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return f'semana {self.semana} | ci {self.codci} - {self.sobre}'
+
