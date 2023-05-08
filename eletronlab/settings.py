@@ -40,12 +40,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '6-gth!ei78h8&93+wxsm(priow%r%e^1+v^71z9upn)oxpr7)f')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 #DEBUG = False
-#DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False')    # != 'False'
 
-ALLOWED_HOSTS = ['*']
-#ALLOWED_HOSTS = ['127.0.0.1', 'eletronlab.herokuapp.com']
+#ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', 'eletronlab.herokuapp.com', '*.herokuapp.com']
 
 
 # Application definition
@@ -96,16 +96,6 @@ WSGI_APPLICATION = 'eletronlab.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-##DATABASES = {
-##    'default': {
-##        'ENGINE': 'django.db.backends.mysql',
-##        'NAME': 'bd_eletronlab',
-##        'USER': 'root',
-##        'PASSWORD': '',
-##        'HOST': 'localhost', #'127.0.0.1',  'localhost'
-##        'PORT': '3306',
-##    }
-##}
 
 DATABASES = {
     'default': {
@@ -140,7 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'Brazil/East'
 
@@ -174,11 +164,8 @@ if os.environ.get('DATABASE_URL', ''):
 # The absolute path to the directory where collectstatic will collect static files for deployment.
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
 # The URL to use when referring to static files (where they will be served from)
 STATIC_URL = '/static/'
-
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/

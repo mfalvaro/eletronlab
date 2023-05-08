@@ -32,13 +32,13 @@
 				<ul>
 					<li>
 						<label for="semana">Semana:</label>
-						<input type="number" name="semana" id="semana" min="1" max="152" step="1" value={{ filtro_sem }} />
+						<input type="number" name="semana" id="semana" min="1" max="152" step="1" value={{ filtro_sem_url }} />
 					</li>
 					<li>
 						<label for="categoria">Categoria:</label>
 						<select id="categoria" name="categoria">
-							{% for cat in filtro_lst_cat %}
-								{% if cat == filtro_cat %}
+							{% for cat in filtro_cat_lst %}
+								{% if cat == filtro_cat_url %}
 									<option value="{{ cat }}" selected>{{ cat }}</option>
 								{% else %}
 									<option value="{{ cat }}">{{ cat }}</option>
@@ -52,16 +52,15 @@
 		</form>	
 		<table>
 			<!-- Cabeçalho da tabela,com a implementação da classificação ascente e descente clicando no título ou na figurinha ao lado de qq das colunas da tabela) 
-			A lógica em views.py passa as variáveis c0 até c5 contendo o número da coluna, asc ou desc e classificado (0 ou 1), ex: '1a1', coluna 1 classificado asc ativo
+			A lógica em views.py passa as variáveis sort_mapa1 até sort_mapa5 contendo o número da coluna, asc ou desc e classificado (0 ou 1), ex: '1a1', coluna 1 classificado asc ativo
 			Por enquanto só dá para classificar, asc ou desc, apenas uma coluna por vez
-			Nestas variáveis são aplicados filter |slice para configura a url do link e da url das imagens, pequenas setas ao lado dos títulos	-->
+			Nestas variáveis são aplicados filter |slice para configurar a url do link e a url das imagens, pequenas setas ao lado dos títulos	-->
 			<tr>
-				<!-- <th><a href="?col={{ c0|slice:":2" }}">Id </a>       <a href="?col={{ c0|slice:":2" }}"><img src="{% static 'res/ordem' %}{{ c0|slice:"1:" }}.jpg"></a></th> -->
-				<th><a href="?col={{ c1|slice:":2" }}{{ filtro_url }}">Semana </a>   <a href="?col={{ c1|slice:":2" }}{{ filtro_url }}"><img src="{% static 'res/ordem' %}{{ c1|slice:"1:" }}.jpg"></a></th>
-				<th><a href="?col={{ c2|slice:":2" }}{{ filtro_url }}">Ordem </a>    <a href="?col={{ c2|slice:":2" }}{{ filtro_url }}"><img src="{% static 'res/ordem' %}{{ c2|slice:"1:" }}.jpg"></a></th>
-				<th><a href="?col={{ c3|slice:":2" }}{{ filtro_url }}">Título </a>   <a href="?col={{ c3|slice:":2" }}{{ filtro_url }}"><img src="{% static 'res/ordem' %}{{ c3|slice:"1:" }}.jpg"></a></th>
-				<th><a href="?col={{ c4|slice:":2" }}{{ filtro_url }}">Categoria </a><a href="?col={{ c4|slice:":2" }}{{ filtro_url }}"><img src="{% static 'res/ordem' %}{{ c4|slice:"1:" }}.jpg"></a></th>
-				<th><a href="?col={{ c5|slice:":2" }}{{ filtro_url }}">Página </a>   <a href="?col={{ c5|slice:":2" }}{{ filtro_url }}"><img src="{% static 'res/ordem' %}{{ c5|slice:"1:" }}.jpg"></a></th>
+				<th><a href="?col={{ sort_mapa1|slice:":2" }}{{ filtro_url }}">Semana </a>   <a href="?col={{ sort_mapa1|slice:":2" }}{{ filtro_url }}"><img src="{% static 'res/ordem' %}{{ sort_mapa1|slice:"1:" }}.jpg"></a></th>
+				<th><a href="?col={{ sort_mapa2|slice:":2" }}{{ filtro_url }}">Ordem </a>    <a href="?col={{ sort_mapa2|slice:":2" }}{{ filtro_url }}"><img src="{% static 'res/ordem' %}{{ sort_mapa2|slice:"1:" }}.jpg"></a></th>
+				<th><a href="?col={{ sort_mapa3|slice:":2" }}{{ filtro_url }}">Título </a>   <a href="?col={{ sort_mapa3|slice:":2" }}{{ filtro_url }}"><img src="{% static 'res/ordem' %}{{ sort_mapa3|slice:"1:" }}.jpg"></a></th>
+				<th><a href="?col={{ sort_mapa4|slice:":2" }}{{ filtro_url }}">Categoria </a><a href="?col={{ sort_mapa4|slice:":2" }}{{ filtro_url }}"><img src="{% static 'res/ordem' %}{{ sort_mapa4|slice:"1:" }}.jpg"></a></th>
+				<th><a href="?col={{ sort_mapa5|slice:":2" }}{{ filtro_url }}">Página </a>   <a href="?col={{ sort_mapa5|slice:":2" }}{{ filtro_url }}"><img src="{% static 'res/ordem' %}{{ sort_mapa5|slice:"1:" }}.jpg"></a></th>
 			</tr>
 			<!-- loop para as linhas da tabela criando um link para cada tema individual na coluna título -->
 			{% for t in tema_list %}
