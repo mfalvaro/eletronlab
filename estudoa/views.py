@@ -206,7 +206,6 @@ class TemaListViewSorted(generic.ListView):
         context['filtro_sem_url'] = self.filtro_sem_url
         context['filtro_cat_url'] = self.filtro_cat_url
         context['filtro_cat_lst'] = self.filtro_cat_lst
-        context['filtro_cat_lst'] = self.filtro_cat_lst
 ##        context['page_obj'] = self.page_obj
         return context
 
@@ -228,8 +227,83 @@ class TemaUpdate(UpdateView):
 class ComentListView(generic.ListView):
     model = Coment
     template_name = 'estudoa/coment_list.html'  # Specify your own template name/location
+
+    #SISTEMA DE PAGINAÇÃO**********************************************************
     paginate_by = paginacao
 
+    #SISTEMA DE FILTRAGEM (FILTRO)**********************************************************
+    filtro_url=''
+    filtro_ass_url=''
+    filtro_det_url=''
+
+    #Lista exclusiva de assuntos criando uma lista exclusiva a partir da função set do python
+    filtro_ass_lst=list(set(Coment.objects.values_list("assunto"))) #lista de tuples
+    #transforma em uma lista de valores
+    for i in range(len(filtro_ass_lst)):
+        filtro_ass_lst[i]=filtro_ass_lst[i][0]
+    #classifica filtro_ass_lst
+    #note que para que os caracteres utf-8 sejam considerados há qe se usar o módulo locale
+    locale.setlocale(locale.LC_ALL, '')
+    filtro_ass_lst=sorted(filtro_ass_lst,key=locale.strxfrm)
+    #insere o valor 'vazio' como primeiro item da lista
+    filtro_ass_lst.insert(0,"")
+
+    # fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff----get_queryset
+    def get_queryset(self):
+
+        #SISTEMA DE FILTRAGEM (FILTRO) POR ASSUNTO E/OU DETALHE **********************************************************
+        #Define ou pega o parâmetro da session 'comentlist_filtro_ass'. Usa-se session para não perder as escolhas do usuário
+        comentList_filtro_ass = self.request.session.get('comentList_filtro_ass', '')
+        # Captura os parâmetros para filtragem contidos na URL quando se clica em "filtrar"
+        self.filtro_ass_url=self.request.GET.get('assunto',comentList_filtro_ass) #caso não encontre retorna o padrão, comentList_filtro_ass
+        #Redefine o parâmetro da session 'comentList_filtro_ass' como o parâmetro passado pela url, parâmetro 'assunto'
+        self.request.session['comentList_filtro_ass'] = self.filtro_ass_url
+
+##        #torna o valor do filtro de assunto um valor inteiro
+##        if self.filtro_ass_url != '':
+##            self.filtro_ass_url=int(self.filtro_ass_url)
+
+        #Define ou pega o parâmetro da session 'comentlist_filtro_det'. Usa-se session para não perder as escolhas do usuário
+        comentlist_filtro_det = self.request.session.get('comentlist_filtro_det', '')
+        self.filtro_det_url=self.request.GET.get('detalhe',comentlist_filtro_det) #caso não encontre retorna o padrão, comentlist_filtro_det
+        #Redefine o parâmetro da session 'comentlist_filtro_det' como o parâmetro passado pela url, parâmetro 'categoria'
+        self.request.session['comentlist_filtro_det'] = self.filtro_det_url
+
+        #Verifica e configura o tipo de filtragem escolhida pelo usuário
+        if self.filtro_ass_url != '' and self.filtro_det_url == '':
+            queryset=Coment.objects.filter(assunto__exact=self.filtro_ass_url)#.order_by(self.sort_str)
+            self.filtro_url=f"&assunto={self.filtro_ass_url}"
+        elif self.filtro_det_url !='' and self.filtro_ass_url == '':
+            queryset=Coment.objects.filter(detalhe__icontains=self.filtro_det_url)#.order_by(self.sort_str)
+            self.filtro_url=f"&detalhe={self.filtro_det_url}"
+        elif self.filtro_det_url !='' and self.filtro_ass_url != '':
+            queryset=Coment.objects.filter(assunto__exact=self.filtro_ass_url).filter(detalhe__icontains=self.filtro_det_url)#.order_by(self.sort_str)
+            self.filtro_url=f"&assunto={self.filtro_ass_url}&detalhe={self.filtro_det_url}"
+        else:
+            queryset=Coment.objects.all()#.order_by(self.sort_str)
+
+##        #SISTEMA DE PAGINAÇÃO **********************************************************
+##        #Define ou pega o parâmetro da session 'tema_list_page'. Usa-se session para não perder as escolhas do usuário
+##        tema_list_page = self.request.session.get('tema_list_page', 1)
+##        # Captura do parâmetro page da URL da paginação automática
+##        self.page_url=self.request.GET.get('page',tema_list_page) #caso não encontre retorna o padrão, tema_list_page
+##        #Redefine o parâmetro da session 'tema_list_sort' como o parâmetro passado pela url, parâmetro 'col'
+##        self.request.session['tema_list_page'] = self.page_url
+##        paginator = Paginator(queryset, self.paginate_by)
+##        self.page_obj = paginator.get_page(self.page_url)
+        return queryset
+
+
+    # fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff----get_context_data
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get the context
+        context = super().get_context_data(**kwargs)
+        # Create any data and add it to the context
+        context['filtro_ass_lst'] = self.filtro_ass_lst
+        context['filtro_ass_url'] = self.filtro_ass_url
+        context['filtro_det_url'] = self.filtro_det_url
+        context['filtro_url'] = self.filtro_url
+        return context
 
 #  INDIVIDUAL VISUALIZAÇÃO ############################################################################################################     INDIVIDUAL VISUALIZAÇÃO
 class ComentDetailView(generic.DetailView):
