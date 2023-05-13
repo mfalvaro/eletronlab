@@ -18,7 +18,7 @@
 			<ul>
 				<li>
 					<label for="assunto">Assunto:</label>
-<!-- 					<select id="assunto" name="assunto">
+					<select id="assunto" name="assunto">
 						{% for ass in filtro_ass_lst %}
 							{% if ass == filtro_ass_url %}
 								<option value="{{ ass }}" selected>{{ ass }}</option>
@@ -26,13 +26,13 @@
 								<option value="{{ ass }}">{{ ass }}</option>
 							{% endif %}
 						{% endfor %}
-					</select> -->
-					<datalist id="lista_ass">
+					</select>
+					<!-- <datalist id="lista_ass">
 						{% for ass in filtro_ass_lst %}
 							<option value="{{ ass }}">{{ ass }}</option>
 						{% endfor %}
 					</datalist>
-					<input type="search" list="lista_ass" name="assunto" id="assunto" value={{ filtro_ass_url }}>
+					<input type="search" list="lista_ass" name="assunto" id="assunto" value={{ filtro_ass_url }}> -->
 				</li>
 				<li>
 					<label for="detalhe">Detalhe:</label>

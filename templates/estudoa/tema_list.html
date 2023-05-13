@@ -69,7 +69,7 @@
 					<td><a href="{{ t.get_absolute_url }}/update">{{ t.semana }}</a></td>
 					<td>{{ t.ordem }}</td>
 					<td><a href="{{ t.get_absolute_url }}">{{ t.titulo }}</a></td>
-					<td>{{ t.categoria }}</td>
+					<td><a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/temas/tema{{ t.semana|stringformat:"02d" }}_{{ t.ordem }}.pdf">{{ t.categoria }}</a></td>
 					<td>{{ t.pagina }}</td>
 				</tr>
 			{% endfor %}
