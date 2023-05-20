@@ -4,8 +4,9 @@
 {% block title %}Tema{% endblock %}
 
 {% block content %}
-  <h1>Tema: {{ tema.titulo }}</h1>
-
+  <!-- Add additional CSS, img in static files -->
+  {% load static %}
+  <h1>Tema: {{ tema.titulo }} <a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/temas/tema{{ tema.semana|stringformat:"02d" }}_{{ tema.ordem }}.pdf"><img src="{% static 'res/' %}download.jpg"></a></h1>
   <p><strong>Categoria:</strong> {{ tema.categoria }}, {{ tema.pagina }} </p> <!-- author detail link not yet defined -->
   <p><strong>Semana:</strong> {{ tema.semana }}.{{ tema.ordem }}</p>
 
@@ -14,7 +15,7 @@
 	  <ul>
 		{% for tc in tema.temacoment_set.all %}
 		  <li>
-			<a href="{{ tc.coment.get_absolute_url }}">{{ tc.coment.assunto }} :: {{ tc.coment.detalhe }}</a>
+			<a href="{{ tc.coment.get_absolute_url }}">{{ tc.coment.assunto }} :: {{ tc.coment.detalhe }}</a><a href="{{ tc.get_absolute_url }}/delete/?tema={{ tema.codtema }}">  <img src="{% static 'res/' %}delete.png"></a>
 		  </li>
 			 {% empty %}
 			 <p>Não há comentários para este tema.</p>
@@ -25,9 +26,12 @@
     <a href="{{ tema.get_absolute_url }}/update">Editar tema...</a>
   </div>
   <div>
-    <a href="{% url 'temacoments' %}create/?tema={{ tema.codtema }}">Criar novo tema/coment...</a>
+    <a href="{% url 'temacoments' %}create/?tema={{ tema.codtema }}">Criar tema/coment existente...</a>
   </div>
-  
+   <div>
+    <a href="{% url 'coments' %}create/?tema={{ tema.codtema }}&coment=criar">Criar tema/coment novo...</a>
+  </div>
+ 
 {% endblock %}
 
 {% block content1 %}

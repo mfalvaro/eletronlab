@@ -26,6 +26,10 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 
+#acesso para as caixas de mensagem padrão do windows
+import ctypes
+
+
 ##-----------------------------GLOBALS--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 paginacao=15
 
@@ -316,6 +320,26 @@ class ComentCreate(CreateView):
     model = Coment
     fields = ['assunto', 'detalhe']
 
+    # fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff----form_valid
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        self.object = form.save()
+        if self.request.GET.get('coment','')=='criar':
+            tc1 = TemaComent.objects.create(coment=self.object, tema=Tema.objects.get(pk=int(self.request.GET.get('tema',''))))
+
+##        c1=Coment.objects.filter(assunto__exact=self.object.assunto).filter(detalhe__exact=self.object.detalhe)
+##            resp1=ctypes.windll.user32.MessageBoxW(0, f"{self.object.codcoment};{self.request.GET.get('tema','')}", "Mensagem Python", 0)# 0 : OK
+##        resp1=ctypes.windll.user32.MessageBoxW(0, self.request.GET.get('coment',''), "Mensagem Python", 0)# 0 : OK
+##            resp1=ctypes.windll.user32.MessageBoxW(0, str(self.object.codcoment), "Mensagem Python", 0)# 0 : OK
+        return super().form_valid(form)
+
+    # fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff----get_success_url
+    def get_success_url(self):
+        if self.request.GET.get('coment','')=='criar':
+            return reverse_lazy('tema-detail', kwargs={'pk': self.request.GET.get('tema',1)})
+        else:
+            return reverse_lazy('coments')
+
 
 # INDIVIDUAL UPDATE ###################################################################################################################           INDIVIDUAL UPDATE
 class ComentUpdate(UpdateView):
@@ -362,7 +386,14 @@ class TemaComentCreate(CreateView):
 #  INDIVIDUAL DELETE ################################################################################################################        INDIVIDUAL DELETE
 class TemaComentDelete(DeleteView):
     model = TemaComent
-    success_url = reverse_lazy('temacoments')
+
+    # fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff----get_success_url
+    def get_success_url(self):
+        if self.request.GET.get('tema','')=='':
+            return reverse_lazy('temacoments')
+        else:
+            return reverse_lazy('tema-detail', kwargs={'pk': self.request.GET.get('tema',1)})
+
 
 
 
