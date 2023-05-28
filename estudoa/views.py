@@ -24,7 +24,7 @@ import locale
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 #acesso para as caixas de mensagem padrão do windows
 import ctypes
@@ -358,8 +358,66 @@ class ComentDelete(DeleteView):
 class TemaComentListView(generic.ListView):
     model = TemaComent
     template_name = 'estudoa/temacoment_list.html'  # Specify your own template name/location
-    paginate_by = paginacao
 
+    #SISTEMA DE PAGINAÇÃO**********************************************************
+    paginate_by = 7
+
+    #SISTEMA DE FILTRAGEM (FILTRO)**********************************************************
+    filtro_url=''
+    filtro_search_url=''
+
+    #SISTEMA DE DA SEGUNDA PAGINAÇÃO********************************************************
+    queryset2=Coment.objects.all()
+    paginator2 = Paginator(queryset2, 7)
+    page_obj2=paginator2.page(1)
+
+    # fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff----get_queryset
+    def get_queryset(self):
+
+        #SISTEMA DE FILTRAGEM (FILTRO) POR TERMO QUALQUER **********************************************************
+        #Define ou pega o parâmetro da session 'temacomentlist_filtro_search'. Usa-se session para não perder as escolhas do usuário
+        temacomentlist_filtro_search = self.request.session.get('temacomentlist_filtro_search', '')
+        # Captura os parâmetros para filtragem contidos na URL quando se clica em "search"
+        self.filtro_search_url=self.request.GET.get('search',temacomentlist_filtro_search) #caso não encontre retorna o padrão, temacomentlist_filtro_search
+        #Redefine o parâmetro da session 'temacomentlist_filtro_search' como o parâmetro passado pela url, parâmetro 'search'
+        self.request.session['temacomentlist_filtro_search'] = self.filtro_search_url
+
+        #Faz a filtragem do termo escolhido pelo usuário em Temas, nos títulos; e comentários por assunto e detalhe
+        if self.filtro_search_url != '':
+            #queryset/paginação gerenciada pelo django (Temas)
+            queryset=Tema.objects.filter(titulo__icontains=self.filtro_search_url)
+            #queryset/paginação gerenciada manual (Comentários)
+            queryset2a=Coment.objects.filter(assunto__icontains=self.filtro_search_url)#filtro em assuntos
+            queryset2b=Coment.objects.filter(detalhe__icontains=self.filtro_search_url)#filtro em detalhes
+            self.queryset2 = queryset2a | queryset2b#queryset união dos filtros
+            #SISTEMA DE DA SEGUNDA PAGINAÇÃO********************************************************
+            self.paginator2 = Paginator(self.queryset2, 7)
+            page2 = self.request.GET.get('page2', 1)
+            try:
+                self.page_obj2 = self.paginator2.page(page2)
+            except PageNotAnInteger:
+                self.page_obj2 = self.paginator2.page(1)
+            except EmptyPage:
+                self.page_obj2 = self.paginator2.page(self.paginator2.num_pages)
+
+            self.filtro_url=f"&search={self.filtro_search_url}"
+        else:
+            queryset=Tema.objects.all()
+            self.queryset2=Coment.objects.all()
+            self.paginator2 = Paginator(self.queryset2, 7)
+            self.page_obj2=self.paginator2.page(1)
+
+        return queryset
+
+    # fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff----get_context_data
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get the context
+        context = super().get_context_data(**kwargs)
+        # Create any data and add it to the context
+        context['filtro_search_url'] = self.filtro_search_url
+        context['filtro_url'] = self.filtro_url
+        context['page_obj2'] = self.page_obj2
+        return context
 
 #  INDIVIDUAL VISUALIZAÇÃO ##########################################################################################################  INDIVIDUAL VISUALIZAÇÃO
 class TemaComentDetailView(generic.DetailView):
@@ -393,7 +451,5 @@ class TemaComentDelete(DeleteView):
             return reverse_lazy('temacoments')
         else:
             return reverse_lazy('tema-detail', kwargs={'pk': self.request.GET.get('tema',1)})
-
-
 
 

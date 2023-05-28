@@ -46,7 +46,8 @@
 		<p>comentlist_filtro_det={{ comentlist_filtro_det }}</p>
 		<p>url 'coments'={% url 'coments' %}</p> -->
 	
-	</form>	  <ul>
+	</form>
+	<ul>
     {% for c in coment_list %}
       <li>
         <a href="{{ c.get_absolute_url }}">{{ c.assunto }}::{{ c.detalhe }}</a>
