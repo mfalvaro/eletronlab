@@ -52,7 +52,11 @@
 	<h3>Encontrados em assunto e/ou detalhe dos Comentários ({{ page_obj2.paginator.count }})</h3>
 	<ul>
 		{% for c in page_obj2.object_list %}
-			{% if c.assunto == 'ci' %}
+			{% if c.assunto == 'outro tema' %}
+			  <li>
+				<a href="{{ c.get_absolute_url }}">{{ c.assunto }}</a> :: <a href="{% url 'outro_tema' %}?outrotema={{ c.detalhe }}">{{ c.detalhe }}</a>
+			  </li>	
+			{% elif c.assunto == 'ci' %}
 			  <li>
 				<a href="{{ c.get_absolute_url }}">{{ c.assunto }}</a> :: <a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/ci/ci_{{ c.detalhe }}.jpg">{{ c.detalhe }}</a>
 			  </li>			
@@ -60,7 +64,7 @@
 			  <li>
 				<a href="{{ c.get_absolute_url }}">{{ c.assunto }}::{{ c.detalhe }}</a>
 			  </li>
-			{% endif %}
+			{% endif %}			
 		{% endfor %}
 	</ul>
 	{% block pagination2 %}

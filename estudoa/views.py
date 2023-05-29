@@ -25,7 +25,7 @@ import locale
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.shortcuts import redirect
 #acesso para as caixas de mensagem padrão do windows
 import ctypes
 
@@ -453,3 +453,23 @@ class TemaComentDelete(DeleteView):
             return reverse_lazy('tema-detail', kwargs={'pk': self.request.GET.get('tema',1)})
 
 
+##    OUTRO TEMA **********************************************************************************************************************************************************************    OUTRO TEMA
+def OutroTema(request):
+
+    # Captura do parâmetro outrotema da URL
+    outrotema = request.GET.get('outrotema',"teoria 1") #caso não encontre retorna o padrão, Teoria 1
+    tmp1=outrotema.split()
+    if len(tmp1)==3:
+        tmpcat=tmp1[0]+ ' ' + tmp1[1]
+        tmppag=int(tmp1[2])
+    else:
+        tmpcat=tmp1[0]
+        tmppag=int(tmp1[1])
+
+    tmptema = Tema.objects.filter(categoria__iexact=tmpcat).filter(pagina__exact=tmppag)
+    if len(tmptema)!=1:
+        tmptema = Tema.objects.filter(categoria__iexact='teoria').filter(pagina__exact=1)
+
+
+    # Render the HTML template
+    return redirect(tmptema[0])

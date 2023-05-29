@@ -16,7 +16,7 @@
 		{% for tc in tema.temacoment_set.all %}
 			{% if tc.coment.assunto == 'outro tema' %}
 			  <li>
-				<a href="{{ tc.coment.get_absolute_url }}">{{ tc.coment.assunto }}</a> :: {{ tc.coment.detalhe }}<a href="{{ tc.get_absolute_url }}/delete/?tema={{ tema.codtema }}">  <img src="{% static 'res/' %}delete.png"></a>
+				<a href="{{ tc.coment.get_absolute_url }}">{{ tc.coment.assunto }}</a> :: <a href="{% url 'outro_tema' %}?outrotema={{ tc.coment.detalhe }}">{{ tc.coment.detalhe }}</a><a href="{{ tc.get_absolute_url }}/delete/?tema={{ tema.codtema }}">  <img src="{% static 'res/' %}delete.png"></a>
 			  </li>
 			{% elif tc.coment.assunto == 'ci' %}
 			  <li>

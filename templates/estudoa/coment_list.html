@@ -49,7 +49,11 @@
 	</form>
 	<ul>
     {% for c in coment_list %}
-		{% if c.assunto == 'ci' %}
+		{% if c.assunto == 'outro tema' %}
+		  <li>
+			<a href="{{ c.get_absolute_url }}">{{ c.assunto }}</a> :: <a href="{% url 'outro_tema' %}?outrotema={{ c.detalhe }}">{{ c.detalhe }}</a>
+		  </li>	
+		{% elif c.assunto == 'ci' %}
 		  <li>
 			<a href="{{ c.get_absolute_url }}">{{ c.assunto }}</a> :: <a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/ci/ci_{{ c.detalhe }}.jpg">{{ c.detalhe }}</a>
 		  </li>			
@@ -58,7 +62,6 @@
 			<a href="{{ c.get_absolute_url }}">{{ c.assunto }}::{{ c.detalhe }}</a>
 		  </li>
 		{% endif %}	
-	
 	
     {% endfor %}
   </ul>

@@ -16,6 +16,7 @@ urlpatterns = [
     path('temas/', views.TemaListViewSorted.as_view(), name='temas'), #Classe herdada com classificação nas colunas
     path('tema/<int:pk>', views.TemaDetailView.as_view(), name='tema-detail'),
     path('tema/<int:pk>/update/', views.TemaUpdate.as_view(), name='tema_update'),
+    path('outrotema/', views.OutroTema, name='outro_tema'),
 
     path('coments/', views.ComentListView.as_view(), name='coments'),
     path('coment/<int:pk>', views.ComentDetailView.as_view(), name='coment-detail'),
