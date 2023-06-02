@@ -7,8 +7,9 @@
 """
 ##-----------------------------IMPORTS------------------------------------------
 from django import forms
-
-from django.forms import ModelForm
+import datetime
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 from estudoa.models import Tema, Coment, TemaComent
 
@@ -17,23 +18,21 @@ from estudoa.models import Tema, Coment, TemaComent
 
 ##--------------------FUNCTIONS AND CLASSES-------------------------------------
 # ##################################################################################################################################
-##class EditTemaForm(ModelForm):
-##    def clean_tema(self):
-##       semana = self.cleaned_data['semana']
-##
-##       # Checa se o dado é válido.
-##       if int(semana) < 1 or int(semana) > 52 :
-##           raise ValidationError(_('Semana inválida - valor deve estar entre 1 e 52'))
-##
-##       # Remember to always return the cleaned data.
-##       return semana
-##
-##    class Meta:
-##        model = Tema
-##        fields = '__all__'
+class ComentCreateForm(forms.ModelForm):
+    class Meta:
+        model = Coment
+        fields = ['assunto', 'detalhe']
 
+    def clean_assunto(self):
+        data = self.cleaned_data["assunto"]
+        data = data.lower().strip()
+        return data # sempre retorne o valor, mesmo que não tenha sido modificado
 
-# ##################################################################################################################################
+    def clean_detalhe(self):
+        data = self.cleaned_data['detalhe']
+        data = data.lower().strip()
+        if 'transistor' in data:
+            #raise ValidationError("Corrrija a acentuação!")
+            data = data.replace('transistor','transístor')
+        return data # sempre retorne o valor, mesmo que não tenha sido modificado
 
-
-# ##################################################################################################################################
