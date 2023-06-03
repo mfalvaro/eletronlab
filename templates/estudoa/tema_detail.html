@@ -6,7 +6,7 @@
 {% block content %}
   <!-- Add additional CSS, img in static files -->
   {% load static %}
-  <h1>Tema: {{ tema.titulo }} <a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/temas/tema{{ tema.semana|stringformat:"02d" }}_{{ tema.ordem }}.pdf"><img src="{% static 'res/' %}download.jpg"></a></h1>
+  <h3>Tema: {{ tema.titulo }} <a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/temas/tema{{ tema.semana|stringformat:"02d" }}_{{ tema.ordem }}.pdf"><img src="{% static 'res/' %}download.jpg"></a></h3>
   <p><strong>Categoria:</strong> {{ tema.categoria }}, {{ tema.pagina }} </p> <!-- author detail link not yet defined -->
   <p><strong>Semana:</strong> {{ tema.semana }}.{{ tema.ordem }}</p>
 

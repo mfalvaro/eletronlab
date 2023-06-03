@@ -39,9 +39,9 @@
 {% endblock %}
 
 {% block content1 %}
-	<h1>Lab Eletrônica Home</h1>
+	<h2>Laboratório de Eletrônica </h2>
 	<p>Bem vindo ao Laboratório de Eletrônica <em>GPS Geo</em>!</p>
-	<h2>Informativos</h2>
+	<h3>Informativos</h3>
 	<p>Banco de dados:</p>
 	<ul>
 		<li><strong>Server:</strong> {{ db_server }}</li>
@@ -56,7 +56,7 @@
 		<li><strong>Número de assuntos comentados:</strong> {{ num_assuntos }}</li>
 		<li><strong>Número de ci´s estudados:</strong> {{ num_cis }}</li>
 	</ul>
-  <h2>Circuitos integrados estudados</h2>
+  <h3>Circuitos integrados estudados</h3>
   {% if cis %}
   <ul>
 	{% for ci in cis %}
