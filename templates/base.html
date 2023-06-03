@@ -27,18 +27,14 @@
 				{% block sidebar %}
 					<ul class="sidebar-nav">
 					<li><a href="{% url 'home' %}">Home</a></li>
-					<br>
-					<br>
 					{% if user.is_authenticated %}
 						<li><a href="{% url 'temas' %}">Temas</a></li>
 						<li><a href="{% url 'coments' %}">Comentários</a></li>
 						<li><a href="{% url 'temacoments' %}">Procurar</a></li>
 						<br>
-						<br>
 						<li>User: {{ user.get_username }}</li>
 						<li><a href="{% url 'logout' %}">-Logout-</a></li>
 					{% else %}
-						<br>
 						<br>
 						<li><a href="{% url 'login' %}">Login</a></li>
 					{% endif %}
