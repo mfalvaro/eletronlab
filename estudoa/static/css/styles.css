@@ -4,6 +4,19 @@
     list-style: none;
 }
 
-#txt1 {
+#fim_de_pagina1 {
 		  margin: 0px 0px 50px 0px;
           }
+#esquerda1 {
+		left: 100px;
+		margin: 100px 0px 0px 100px;
+		font-size: 1pt;		
+		}
+/* CLASSES____________________________________________________________________________________________________________________________________________________ */
+/* .logon {
+		display: none;
+        text-align: left;
+		 top: 0px;
+		 left: 5px;
+        padding: 0px 0px 0px 0px;
+		} */

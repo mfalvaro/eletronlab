@@ -24,7 +24,7 @@
 {% block content %}
 	<!-- Add additional CSS, img in static files -->
 	{% load static %}
-	<h1>Temas</h1>
+	<h2>Temas</h2>
 	<!-- verifica se foram passados dados da tabela pela variável tema_list -->
 	{% if tema_list %}
 		<form action="{% url 'temas' %}" method="get">
@@ -49,7 +49,8 @@
 				</ul>
 			</div>
 			<button type="submit">Filtrar</button>
-		</form>	
+		</form>
+		</br>
 		<table>
 			<!-- Cabeçalho da tabela,com a implementação da classificação ascente e descente clicando no título ou na figurinha ao lado de qq das colunas da tabela) 
 			A lógica em views.py passa as variáveis sort_mapa1 até sort_mapa5 contendo o número da coluna, asc ou desc e classificado (0 ou 1), ex: '1a1', coluna 1 classificado asc ativo

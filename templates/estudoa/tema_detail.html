@@ -35,11 +35,13 @@
   <div>
     <a href="{{ tema.get_absolute_url }}/update">Editar tema...</a>
   </div>
-  <div id="txt1">
+  <div >
     <a href="{% url 'temacoments' %}create/?tema={{ tema.codtema }}">Criar tema/coment existente...</a>
   </div>
-   <div>
+   <div id="fim_de_pagina1">
     <a href="{% url 'coments' %}create/?tema={{ tema.codtema }}&coment=criar">Criar tema/coment novo...</a>
+	<br>
+	<br>
   </div>
  
 {% endblock %}

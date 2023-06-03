@@ -1,7 +1,7 @@
 <!-- templates/coment_list.html-->
 {% extends 'base.html' %}
 
-{% block title %}Temas e Cometários{% endblock %}
+{% block title %}Procurar{% endblock %}
 {% block content %}
 	<!-- Add additional CSS, img in static files -->
 	{% load static %}
@@ -10,16 +10,18 @@
 	<a href="{% url 'temacoments' %}create">Criar novo tema/coment...</a>
     <h1>       </h1>
  </div> -->
+<br>
 <form action="{% url 'temacoments' %}" method="get">
 	<div>
 		<label for="search">Procurar por:</label>
 		<input type="text" name="search" id="search" value={{ filtro_search_url }} >
 	</div>
-	<button type="submit">Search</button>
+	<p style="color: gray;margin: 0px 0px 5px 20px;" ><em>Procura pelo termo nos títulos dos temas, nos assuntos e detalhes de comentários.</em></p>
+	<button type="submit">Procurar</button>
 </form>
  {% if object_list %}
-	<p>.</p>
-	<h3>Encontrados nos títulos dos Temas ({{ page_obj.paginator.count }})</h3>
+	<br>
+	<h3>Encontrados em Temas ({{ page_obj.paginator.count }})</h3>
 	<ul>
 		{% for tc in object_list %}
 		  <li>
@@ -48,8 +50,8 @@
 			</div>
 		{% endif %}
 	{% endblock %}
-	<p>.</p>
-	<h3>Encontrados em assunto e/ou detalhe dos Comentários ({{ page_obj2.paginator.count }})</h3>
+	<br>
+	<h3>Encontrados em Comentários ({{ page_obj2.paginator.count }})</h3>
 	<ul>
 		{% for c in page_obj2.object_list %}
 			{% if c.assunto == 'outro tema' %}

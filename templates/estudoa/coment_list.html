@@ -4,12 +4,7 @@
 {% block title %}Cometários{% endblock %}
 
 {% block content %}
-  <h1>Comentários</h1>
-  <div>
-	<a href="{% url 'coments' %}create">Criar novo registro...</a>
-	<br><br>
-    
- </div>
+  <h2>Comentários</h2>
  
   <!-- verifica se foram passados dados da tabela pela variável coment_list -->
 	<form action="{% url 'coments' %}" method="get">
@@ -91,6 +86,14 @@
 		</div>
 	{% endif %}
 {% endblock %}
+
+{% block content1a %}
+  <div>
+	<br>
+	<a href="{% url 'coments' %}create">Criar novo registro...</a>
+ </div>
+{% endblock %}
+
 
 
 {% block content1 %}
