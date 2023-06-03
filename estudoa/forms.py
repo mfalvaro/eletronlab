@@ -7,14 +7,8 @@
 """
 ##-----------------------------IMPORTS------------------------------------------
 from django import forms
-import datetime
-from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
-
-from estudoa.models import Tema, Coment, TemaComent
-
-##-----------------------------GLOBALS------------------------------------------
-
+from estudoa.models import Coment
+#from django.core.exceptions import ValidationError
 
 ##--------------------FUNCTIONS AND CLASSES-------------------------------------
 # ##################################################################################################################################

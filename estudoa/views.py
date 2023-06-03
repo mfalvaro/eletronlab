@@ -27,7 +27,7 @@ from django.urls import reverse_lazy
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import redirect
 #acesso para as caixas de mensagem padrão do windows
-import ctypes
+#import ctypes
 
 from estudoa.forms import ComentCreateForm
 
