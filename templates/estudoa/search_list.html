@@ -1,4 +1,4 @@
-<!-- templates/coment_list.html-->
+<!-- templates/estudoa/search_list.html-->
 {% extends 'base.html' %}
 
 {% block title %}Procurar{% endblock %}
@@ -14,7 +14,7 @@
 <form action="{% url 'searchs' %}" method="get">
 	<div>
 		<label for="search">Procurar por:</label>
-		<input type="text" name="search" id="search" value={{ filtro_search_url }} >
+		<input type="text" name="search" id="search" value="{{ filtro_search_url }}" >
 	</div>
 	<p style="color: gray;margin: 0px 0px 5px 20px;" ><em>Procura pelo termo nos títulos dos temas, nos assuntos e detalhes de comentários.</em></p>
 	<button type="submit">Procurar</button>

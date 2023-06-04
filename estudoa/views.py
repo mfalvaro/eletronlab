@@ -27,7 +27,7 @@ from django.urls import reverse_lazy
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import redirect
 #acesso para as caixas de mensagem padrão do windows
-#import ctypes
+import ctypes
 
 from estudoa.forms import ComentCreateForm
 
@@ -372,10 +372,13 @@ class SearchListView(generic.ListView):
         #SISTEMA DE FILTRAGEM (FILTRO) POR TERMO QUALQUER **********************************************************
         #Define ou pega o parâmetro da session 'temacomentlist_filtro_search'. Usa-se session para não perder as escolhas do usuário
         temacomentlist_filtro_search = self.request.session.get('temacomentlist_filtro_search', '')
+        #resp1=ctypes.windll.user32.MessageBoxW(0, f"{temacomentlist_filtro_search}", "Mensagem Python", 0)# 0 : OK
         # Captura os parâmetros para filtragem contidos na URL quando se clica em "search"
         self.filtro_search_url=self.request.GET.get('search',temacomentlist_filtro_search) #caso não encontre retorna o padrão, temacomentlist_filtro_search
+        #resp1=ctypes.windll.user32.MessageBoxW(0, f"{self.filtro_search_url}", "Mensagem Python", 0)# 0 : OK
         #Redefine o parâmetro da session 'temacomentlist_filtro_search' como o parâmetro passado pela url, parâmetro 'search'
         self.request.session['temacomentlist_filtro_search'] = self.filtro_search_url
+        #resp1=ctypes.windll.user32.MessageBoxW(0, f"{self.request.session['temacomentlist_filtro_search']}", "self.request.session", 0)# 0 : OK
 
         #Faz a filtragem do termo escolhido pelo usuário em Temas, nos títulos; e comentários por assunto e detalhe
         if self.filtro_search_url != '':
@@ -397,7 +400,9 @@ class SearchListView(generic.ListView):
             except:
                 self.page_obj2 = self.paginator2.page(1)
 
-            self.filtro_url=f"&search={self.filtro_search_url}"
+            self.filtro_url=f"&search={self.filtro_search_url.replace(' ','%20')}"
+            #resp1=ctypes.windll.user32.MessageBoxW(0, f"{self.filtro_url.replace(' ','%20')}", "Mensagem Python", 0)# 0 : OK
+
         else:
             queryset=Tema.objects.all()
             self.queryset2=Coment.objects.all()
