@@ -68,8 +68,7 @@ def home(request):
 
     percentual_temas_estudados = "{0:,.1f}%".format((num_temas_estudados/num_temas)*100)
 
-    tmp2=Coment.objects.filter(assunto__exact="ci").aggregate(Count('detalhe', distinct=True))
-    num_cis = tmp2['detalhe__count']
+    num_cis = Ci.objects.all().count()
 
     cis = Ci.objects.all()
 
@@ -475,3 +474,26 @@ def OutroTema(request):
 
     # Render the HTML template
     return redirect(tmptema[0])
+
+##    CI *********************************************************************************************************************************************************************    CI
+#  INDIVIDUAL CREATE ################################################################################################################        INDIVIDUAL CREATE
+class CiCreate(CreateView):
+    model = Ci
+    fields = ['codci', 'semana', 'sobre']
+    success_url = reverse_lazy('home')
+
+# INDIVIDUAL DELETE ####################################################################################################################          INDIVIDUAL DELETE
+class CiDelete(DeleteView):
+    model = Ci
+    success_url = reverse_lazy('home')
+
+#  INDIVIDUAL VISUALIZAÇÃO ############################################################################################################     INDIVIDUAL VISUALIZAÇÃO
+class CiDetailView(generic.DetailView):
+    model = Ci
+    template_name = 'estudoa/coment_detail.html'  # Specify your own template name/location
+
+# INDIVIDUAL UPDATE ###################################################################################################################           INDIVIDUAL UPDATE
+class CiUpdate(UpdateView):
+    model = Ci
+    fields = ['codci', 'semana', 'sobre']
+    success_url = reverse_lazy('home')

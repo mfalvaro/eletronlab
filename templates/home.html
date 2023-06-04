@@ -2,7 +2,8 @@
 {% extends 'base.html' %}
 
 {% block title %}Home{% endblock %}
-
+<!-- Add additional CSS, img in static files -->
+{% load static %}
 {% block content %}
 	<h2>Laboratório de Eletrônica </h2>
 	<p>Bem vindo ao Laboratório de Eletrônica <em>GPS Geo</em>!</p>
@@ -24,18 +25,24 @@
 	
   <h3>Circuitos integrados estudados</h3>
   {% if cis %}
-  <ul>
+  <ol>
 	{% for ci in cis %}
 	  <li>
-		<a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/ci/{{ ci.pinagem }}">{{ ci }}</a>
+		Semana {{ ci.semana }} | <a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/ci/ci_{{ ci.codci }}.jpg">{{ ci.codci }}</a> - {{ ci.sobre }}<a href="{{ ci.get_absolute_url }}/update">  <img src="{% static 'res/' %}update.jpg"></a><a href="{{ ci.get_absolute_url }}/delete">  <img src="{% static 'res/' %}delete.png"></a>
 	  </li>
 	{% endfor %}
-  </ul>
+  </ol>
   {% else %}
 	<p>Não existem ci´s no lab.</p>
-  {% endif %}	
-	<p>Número acessos a este link: {{ num_visits }} click{{ num_visits|pluralize }}</p>
-	<p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
+  {% endif %}
+  <div>
+	<br>
+	<a href="{% url 'ci_create' %}">Adicionar ci...</a>
+  </div>
+  </br>
+  
+  <p>Número acessos a este link: {{ num_visits }} click{{ num_visits|pluralize }}</p>
+  <p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
 {% endblock %}
 
 {% block content1 %}
@@ -58,16 +65,18 @@
 	</ul>
   <h3>Circuitos integrados estudados</h3>
   {% if cis %}
-  <ul>
+  <ol>
 	{% for ci in cis %}
 	  <li>
-		<a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/ci/{{ ci.pinagem }}">{{ ci }}</a>	  
+		Semana {{ ci.semana }} | <a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/ci/ci_{{ ci.codci }}.jpg">{{ ci.codci }}</a> - {{ ci.sobre }}
 	  </li>
+
 	{% endfor %}
-  </ul>
+  </ol>
   {% else %}
 	<p>Não existem ci´s no lab.</p>
-  {% endif %}	
+  {% endif %}
+
 {% endblock %}
 
 

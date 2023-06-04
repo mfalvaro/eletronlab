@@ -1,0 +1,15 @@
+<!-- templates/estudoa/ci_confirm_delete.html-->
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h4>Apagar ci</h4>
+
+<p>Tem certeza que deseja apagar este ci:<span style="color: red;"> {{ ci }}</span>?</p>
+
+<form action="" method="POST">
+  {% csrf_token %}
+  <input type="submit" value="Sim, apagar.">
+</form>
+
+{% endblock %}

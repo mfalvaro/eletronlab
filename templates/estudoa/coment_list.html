@@ -6,7 +6,7 @@
 {% block content %}
   <h5>Comentários</h5>
  
-  <!-- verifica se foram passados dados da tabela pela variável coment_list -->
+  <!-- FORMULÁRIO DE FILTRAGEM   *********************************************************************************************************************************** FORMULÁRIO DE FILTRAGEM -->
 	<form action="{% url 'coments' %}" method="get">
 		<div>
 			<ul>
@@ -41,6 +41,8 @@
 		<p>url 'coments'={% url 'coments' %}</p> -->
 	
 	</form>
+  <!-- LISTA DE COMENTÁRIOS   ******************************************************************************************************************************************* LISTA DE COMENTÁRIOS -->
+  <!-- Verifica se a lista está vazia -->
   {% if coment_list %}
 	<ul>
     {% for c in coment_list %}
@@ -59,7 +61,7 @@
 		{% endif %}	
 	
     {% endfor %}
-  </ul>
+   </ul>
   {% else %}
     <p>Não existem comentários no lab.</p>
   {% endif %}

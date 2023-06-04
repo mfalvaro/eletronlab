@@ -80,8 +80,8 @@ class TemaComent(models.Model):
 # ########################################################################################################################################################################################
 class Ci(models.Model):
     codci = models.CharField(db_column='Codci', primary_key=True, max_length=15, blank=True, null=False, help_text='Nome do circuito integrado')
-    semana = models.IntegerField(db_column='Semana', blank=True, null=True)
-    sobre = models.CharField(db_column='Sobre', max_length=75, blank=True, null=True, help_text='Sobre o circuito integrado')
+    semana = models.IntegerField(db_column='Semana', blank=True, null=True, help_text='Semana que apareceu pela primeira vez')
+    sobre = models.CharField(db_column='Sobre', max_length=75, blank=True, null=True, help_text='Descrição do circuito integrado')
     pinagem = models.CharField(db_column='Pinagem', max_length=25, blank=True, null=True, help_text='Figura da pinagem do ci')
 
     class Meta:
@@ -92,4 +92,8 @@ class Ci(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return f'semana {self.semana} | ci {self.codci} - {self.sobre}'
+
+    def get_absolute_url(self):
+        """Returns the url to access a detail record."""
+        return reverse('ci-detail', args=[str(self.codci)])
 
