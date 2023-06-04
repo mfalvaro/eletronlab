@@ -24,7 +24,7 @@ urlpatterns = [
     path('coment/<int:pk>/update/', views.ComentUpdate.as_view(), name='coment_update'),
     path('coment/<int:pk>/delete/', views.ComentDelete.as_view(), name='coment_delete'),
 
-    path('temacoments/', views.TemaComentListView.as_view(), name='temacoments'),
+    path('searchs/', views.SearchListView.as_view(), name='searchs'),
     path('temacoment/<int:pk>', views.TemaComentDetailView.as_view(), name='temacoment-detail'),
     path('temacoments/create/', views.TemaComentCreate.as_view(), name='temacoment_create'),
     path('temacoment/<int:pk>/delete/', views.TemaComentDelete.as_view(), name='temacoment_delete'),

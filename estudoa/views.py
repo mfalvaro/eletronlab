@@ -57,7 +57,7 @@ def home(request):
 
     # Generate counts of some of the main objects
     num_temas = Tema.objects.all().count()
-    num_temacoments = TemaComent.objects.all().count()
+    num_coments = Coment.objects.all().count()
 
     # temas ja estudados (todos - aqueles cujo campo ordem = NULL
     num_temas_estudados = num_temas-Tema.objects.filter(ordem__exact=None).count()
@@ -75,7 +75,7 @@ def home(request):
 
     context = {
         'num_temas': num_temas,
-        'num_temacoments': num_temacoments,
+        'num_coments': num_coments,
         'num_temas_estudados': num_temas_estudados,
         'num_assuntos': num_assuntos,
         'percentual_temas_estudados': percentual_temas_estudados,
@@ -351,9 +351,8 @@ class ComentDelete(DeleteView):
 
 ##    TEMACOMENT *********************************************************************************************************************************************************************    TEMACOMENT
 #  LISTA VISUALIZAÇÃO  ##############################################################################################################      LISTA VISUALIZAÇÃO
-class TemaComentListView(generic.ListView):
-    model = TemaComent
-    template_name = 'estudoa/temacoment_list.html'  # Specify your own template name/location
+class SearchListView(generic.ListView):
+    template_name = 'estudoa/search_list.html'  # Specify your own template name/location
 
     #SISTEMA DE PAGINAÇÃO**********************************************************
     paginate_by = 7
@@ -395,6 +394,8 @@ class TemaComentListView(generic.ListView):
                 self.page_obj2 = self.paginator2.page(1)
             except EmptyPage:
                 self.page_obj2 = self.paginator2.page(self.paginator2.num_pages)
+            except:
+                self.page_obj2 = self.paginator2.page(1)
 
             self.filtro_url=f"&search={self.filtro_search_url}"
         else:
@@ -444,7 +445,7 @@ class TemaComentDelete(DeleteView):
     # fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff----get_success_url
     def get_success_url(self):
         if self.request.GET.get('tema','')=='':
-            return reverse_lazy('temacoments')
+            return reverse_lazy('searchs')
         else:
             return reverse_lazy('tema-detail', kwargs={'pk': self.request.GET.get('tema',1)})
 

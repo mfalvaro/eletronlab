@@ -6,12 +6,12 @@
 {% block content %}
   <!-- Add additional CSS, img in static files -->
   {% load static %}
-  <h3>Tema: {{ tema.titulo }} <a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/temas/tema{{ tema.semana|stringformat:"02d" }}_{{ tema.ordem }}.pdf"><img src="{% static 'res/' %}download.jpg"></a></h3>
+  <h4>Tema: {{ tema.titulo }} <a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/temas/tema{{ tema.semana|stringformat:"02d" }}_{{ tema.ordem }}.pdf"><img src="{% static 'res/' %}download.jpg"></a></h4>
   <p><strong>Categoria:</strong> {{ tema.categoria }}, {{ tema.pagina }} </p> <!-- author detail link not yet defined -->
   <p><strong>Semana:</strong> {{ tema.semana }}.{{ tema.ordem }}</p>
 
   <div style="margin-left:20px;margin-top:20px">
-    <h4>Comentários</h4>
+    <h5>Comentários</h5>
 	  <ul>
 		{% for tc in tema.temacoment_set.all %}
 			{% if tc.coment.assunto == 'outro tema' %}
@@ -36,7 +36,7 @@
     <a href="{{ tema.get_absolute_url }}/update">Editar tema...</a>
   </div>
   <div >
-    <a href="{% url 'temacoments' %}create/?tema={{ tema.codtema }}">Criar tema/coment existente...</a>
+    <a href="{% url 'home' %}temacoments/create/?tema={{ tema.codtema }}">Criar tema/coment existente...</a>
   </div>
    <div id="fim_de_pagina1">
     <a href="{% url 'coments' %}create/?tema={{ tema.codtema }}&coment=criar">Criar tema/coment novo...</a>

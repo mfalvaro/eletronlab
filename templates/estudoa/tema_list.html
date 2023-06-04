@@ -24,7 +24,7 @@
 {% block content %}
 	<!-- Add additional CSS, img in static files -->
 	{% load static %}
-	<h2>Temas</h2>
+	<h4>Temas</h4>
 	<!-- verifica se foram passados dados da tabela pela variável tema_list -->
 	{% if tema_list %}
 		<form action="{% url 'temas' %}" method="get">
@@ -75,6 +75,7 @@
 				</tr>
 			{% endfor %}
 		</table>
+		</br>
 	{% else %}
 		<p>Não existem temas no lab.</p>
 	{% endif %}
@@ -99,9 +100,14 @@
 				{% endif %}
 			</span>
 		</div>
+		</br>
+		</br>
+
 	{% endif %}
 {% endblock %}
 
 {% block content1 %}
+	</br>
 	<p>Faça o login para acessar o conteúdo.</p>
+	</br>
 {% endblock %}

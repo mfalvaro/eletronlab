@@ -7,11 +7,11 @@
 	{% load static %}
 <!--   <div>
     <h1>       </h1>
-	<a href="{% url 'temacoments' %}create">Criar novo tema/coment...</a>
+	<a href="{% url 'searchs' %}create">Criar novo tema/coment...</a>
     <h1>       </h1>
  </div> -->
 <br>
-<form action="{% url 'temacoments' %}" method="get">
+<form action="{% url 'searchs' %}" method="get">
 	<div>
 		<label for="search">Procurar por:</label>
 		<input type="text" name="search" id="search" value={{ filtro_search_url }} >
@@ -21,7 +21,7 @@
 </form>
  {% if object_list %}
 	<br>
-	<h3>Encontrados em Temas ({{ page_obj.paginator.count }})</h3>
+	<h5>Encontrados em Temas ({{ page_obj.paginator.count }})</h5>
 	<ul>
 		{% for tc in object_list %}
 		  <li>
@@ -51,7 +51,14 @@
 		{% endif %}
 	{% endblock %}
 	<br>
-	<h3>Encontrados em Comentários ({{ page_obj2.paginator.count }})</h3>
+  {% else %}
+	<br>
+	<h5>Encontrados em Temas (0)</h5>
+  {% endif %}
+  
+ {% if page_obj2.object_list %}
+	<br>
+	<h5>Encontrados em Comentários ({{ page_obj2.paginator.count }})</h5>
 	<ul>
 		{% for c in page_obj2.object_list %}
 			{% if c.assunto == 'outro tema' %}
@@ -91,7 +98,8 @@
 		{% endif %}
 	{% endblock %}	
   {% else %}
-    <p>Não existem temas para esta procura.</p>
+	<br>
+	<h5>Encontrados em Comentários (0)</h5>
   {% endif %}
 {% endblock %}
 
