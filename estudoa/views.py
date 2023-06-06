@@ -487,11 +487,6 @@ class CiDelete(DeleteView):
     model = Ci
     success_url = reverse_lazy('home')
 
-#  INDIVIDUAL VISUALIZAÇÃO ############################################################################################################     INDIVIDUAL VISUALIZAÇÃO
-class CiDetailView(generic.DetailView):
-    model = Ci
-    template_name = 'estudoa/coment_detail.html'  # Specify your own template name/location
-
 # INDIVIDUAL UPDATE ###################################################################################################################           INDIVIDUAL UPDATE
 class CiUpdate(UpdateView):
     model = Ci

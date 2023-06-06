@@ -30,7 +30,6 @@ urlpatterns = [
     path('temacoment/<int:pk>/delete/', views.TemaComentDelete.as_view(), name='temacoment_delete'),
 
     path('cis/create/', views.CiCreate.as_view(), name='ci_create'),
-    path('ci/<str:pk>', views.CiDetailView.as_view(), name='ci-detail'),
     path('ci/<str:pk>/delete/', views.CiDelete.as_view(), name='ci_delete'),
     path('ci/<str:pk>/update/', views.CiUpdate.as_view(), name='ci_update'),
 
