@@ -42,6 +42,7 @@ class Tema(models.Model):
     categoria = models.CharField(db_column='Categoria', max_length=15, blank=True, null=True)  # Field name made lowercase.
     titulo = models.CharField(db_column='Titulo', max_length=255, blank=True, null=True)  # Field name made lowercase.
     pagina = models.IntegerField(db_column='Pagina', blank=True, null=True)  # Field name made lowercase.
+    status = models.BooleanField(db_column='Status',blank=False, null=True, default=False)  # Field name made lowercase.
 
     class Meta:
         managed = False

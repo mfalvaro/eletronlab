@@ -60,7 +60,7 @@ def home(request):
     num_coments = Coment.objects.all().count()
 
     # temas ja estudados (todos - aqueles cujo campo ordem = NULL
-    num_temas_estudados = num_temas-Tema.objects.filter(ordem__exact=None).count()
+    num_temas_estudados = Tema.objects.filter(status__exact=True).count()
 
     # The 'all()' is implied by default.
     tmp1=Coment.objects.aggregate(Count('assunto', distinct=True))
@@ -105,6 +105,7 @@ class TemaListViewSorted(generic.ListView):
             ['3a', 'titulo', '0'],
             ['4a', 'categoria', '0'],
             ['5a', 'pagina', '0'],
+            ['6a', 'status', '0'],
     ]
 
     #SISTEMA DE PAGINAÇÃO**********************************************************
@@ -143,7 +144,7 @@ class TemaListViewSorted(generic.ListView):
         tmp=int(self.sort_url[0])-1
 
         #reseta a classificação para nenhuma
-        for i in range(5):
+        for i in range(6):
             self.sort_mapa[i][2]='0'
 
         #Verifica se a classificação é ascendente (a) ou descendente (d)
@@ -207,6 +208,7 @@ class TemaListViewSorted(generic.ListView):
         context['sort_mapa3'] = f'{self.sort_mapa[2][0]}{self.sort_mapa[2][2]}'
         context['sort_mapa4'] = f'{self.sort_mapa[3][0]}{self.sort_mapa[3][2]}'
         context['sort_mapa5'] = f'{self.sort_mapa[4][0]}{self.sort_mapa[4][2]}'
+        context['sort_mapa6'] = f'{self.sort_mapa[5][0]}{self.sort_mapa[5][2]}'
         context['sort_url'] = self.sort_url
         context['filtro_url'] = self.filtro_url
         context['filtro_sem_url'] = self.filtro_sem_url
@@ -225,7 +227,7 @@ class TemaDetailView(generic.DetailView):
 #  INDIVIDUAL UPDATE ###################################################################################################################   INDIVIDUAL UPDATE
 class TemaUpdate(UpdateView):
     model = Tema
-    fields = ['semana', 'ordem', 'titulo', 'categoria', 'pagina']
+    fields = ['semana', 'ordem', 'titulo', 'categoria', 'pagina', 'status']
 
 
 ##    COMENT *************************************************************************************************************************************************************************    COMENT

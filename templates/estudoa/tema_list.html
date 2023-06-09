@@ -62,6 +62,7 @@
 				<th><a href="?col={{ sort_mapa3|slice:":2" }}{{ filtro_url }}">Título </a>   <a href="?col={{ sort_mapa3|slice:":2" }}{{ filtro_url }}"><img src="{% static 'res/ordem' %}{{ sort_mapa3|slice:"1:" }}.jpg"></a></th>
 				<th><a href="?col={{ sort_mapa4|slice:":2" }}{{ filtro_url }}">Categoria </a><a href="?col={{ sort_mapa4|slice:":2" }}{{ filtro_url }}"><img src="{% static 'res/ordem' %}{{ sort_mapa4|slice:"1:" }}.jpg"></a></th>
 				<th><a href="?col={{ sort_mapa5|slice:":2" }}{{ filtro_url }}">Página </a>   <a href="?col={{ sort_mapa5|slice:":2" }}{{ filtro_url }}"><img src="{% static 'res/ordem' %}{{ sort_mapa5|slice:"1:" }}.jpg"></a></th>
+				<th><a href="?col={{ sort_mapa6|slice:":2" }}{{ filtro_url }}">Status </a>   <a href="?col={{ sort_mapa6|slice:":2" }}{{ filtro_url }}"><img src="{% static 'res/ordem' %}{{ sort_mapa6|slice:"1:" }}.jpg"></a></th>
 			</tr>
 			<!-- loop para as linhas da tabela criando um link para cada tema individual na coluna título -->
 			{% for t in tema_list %}
@@ -72,6 +73,7 @@
 					<td><a href="{{ t.get_absolute_url }}">{{ t.titulo }}</a></td>
 					<td><a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/temas/tema{{ t.semana|stringformat:"02d" }}_{{ t.ordem }}.pdf">{{ t.categoria }}</a></td>
 					<td>{{ t.pagina }}</td>
+					<td>{{ t.status }}</td>
 				</tr>
 			{% endfor %}
 		</table>
