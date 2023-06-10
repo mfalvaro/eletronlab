@@ -381,14 +381,33 @@ class SearchListView(generic.ListView):
         self.request.session['temacomentlist_filtro_search'] = self.filtro_search_url
         #resp1=ctypes.windll.user32.MessageBoxW(0, f"{self.request.session['temacomentlist_filtro_search']}", "self.request.session", 0)# 0 : OK
 
-        #Faz a filtragem do termo escolhido pelo usuário em Temas, nos títulos; e comentários por assunto e detalhe
+        #Faz a filtragem do termo escolhido pelo usuário em Temas por títulos; comentários por assunto e detalhe, temas por categoria/pg
         if self.filtro_search_url != '':
-            #queryset/paginação gerenciada pelo django (Temas)
-            queryset=Tema.objects.filter(titulo__icontains=self.filtro_search_url)
-            #queryset/paginação gerenciada manual (Comentários)
+
+            """queryset/paginação gerenciada pelo django (Temas)"""
+            #FILTRO EM TEMA/TÍTULOS
+            queryset_a=Tema.objects.filter(titulo__icontains=self.filtro_search_url)
+            #FILTRO EM TEMA/CATEGORIA/PÁGINA
+            queryset_b=Tema.objects.none() #inicializa a variável
+            #Verifica se o termo pesquisado é composto de duas palavras
+            tmp_split=self.filtro_search_url.split()
+            if len(tmp_split) == 2:
+                #verifica se o primeiro termo está em "categorias" de temas
+                test1=Tema.objects.values_list("categoria").filter(categoria__icontains=tmp_split[0])
+                if len(test1)>0:
+                    #verifica se o segundo termo é um número inteiro
+                    try:
+                        pg1=int(tmp_split[1])
+                        queryset_b=Tema.objects.filter(categoria__icontains=tmp_split[0]).filter(pagina__exact=pg1)
+                    except:
+                        pass
+            queryset = queryset_a | queryset_b #queryset união dos filtros
+
+            """queryset2/paginação gerenciada manual (Comentários)"""
             queryset2a=Coment.objects.filter(assunto__icontains=self.filtro_search_url)#filtro em assuntos
             queryset2b=Coment.objects.filter(detalhe__icontains=self.filtro_search_url)#filtro em detalhes
             self.queryset2 = queryset2a | queryset2b#queryset união dos filtros
+
             #SISTEMA DE DA SEGUNDA PAGINAÇÃO********************************************************
             self.paginator2 = Paginator(self.queryset2, 7)
             page2 = self.request.GET.get('page2', 1)
