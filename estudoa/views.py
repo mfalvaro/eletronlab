@@ -464,8 +464,9 @@ def TemaComentCreate(request):
         form = TemaComentCreateForm(request.POST) #iniciliza o formulário com os dados selecionadas pelo usuário
         #insere os registros dos comentários selecionados pelo usuário para o tema (tmpTema)
         for cmt in form['coment'].data:
-            tmpTemaCmt = TemaComent(tema= Tema.objects.get(pk=tmpTema), coment= Coment.objects.get(pk=cmt))
-            tmpTemaCmt.save()
+            tmpTemaCmt, created = TemaComent.objects.get_or_create(tema= Tema.objects.get(pk=tmpTema), coment= Coment.objects.get(pk=cmt))
+            #tmpTemaCmt = TemaComent(tema= Tema.objects.get(pk=tmpTema), coment= Coment.objects.get(pk=cmt))
+            #tmpTemaCmt.save()
         return redirect(reverse_lazy('tema-detail', kwargs={'pk': tmpTema}))
 
 #        resp1=ctypes.windll.user32.MessageBoxW(0, f"Request method: GET", "Mensagem Python", 0)# 0 : OK
