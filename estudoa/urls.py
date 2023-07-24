@@ -26,7 +26,7 @@ urlpatterns = [
 
     path('searchs/', views.SearchListView.as_view(), name='searchs'),
     path('temacoment/<int:pk>', views.TemaComentDetailView.as_view(), name='temacoment-detail'),
-    path('temacoments/create/', views.TemaComentCreate.as_view(), name='temacoment_create'),
+    path('temacoments/create/', views.TemaComentCreate, name='temacoment_create'),
     path('temacoment/<int:pk>/delete/', views.TemaComentDelete.as_view(), name='temacoment_delete'),
 
     path('cis/create/', views.CiCreate.as_view(), name='ci_create'),

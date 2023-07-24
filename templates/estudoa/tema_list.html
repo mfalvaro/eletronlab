@@ -36,7 +36,7 @@
 					</li>
 					<li>
 						<label for="categoria">Categoria:</label>
-						<select id="categoria" name="categoria">
+						<select id="categoria" name="categoria" >
 							{% for cat in filtro_cat_lst %}
 								{% if cat == filtro_cat_url %}
 									<option value="{{ cat }}" selected>{{ cat }}</option>

@@ -30,6 +30,7 @@ from django.shortcuts import redirect
 import ctypes
 
 from estudoa.forms import ComentCreateForm
+from estudoa.forms import TemaComentCreateForm
 
 
 
@@ -174,6 +175,10 @@ class TemaListViewSorted(generic.ListView):
         #Define ou pega o parâmetro da session 'temalist_filtro_cat'. Usa-se session para não perder as escolhas do usuário
         temalist_filtro_cat = self.request.session.get('temalist_filtro_cat', '')
         self.filtro_cat_url=self.request.GET.get('categoria',temalist_filtro_cat) #caso não encontre retorna o padrão, temalist_filtro_cat
+##        resp1=ctypes.windll.user32.MessageBoxW(0, f"{self.request.path}", "Mensagem Python", 0)# 0 : OK
+##        resp1=ctypes.windll.user32.MessageBoxW(0, f"{self.request.GET.getlist('categoria', default=None)}", "Mensagem Python", 0)# 0 : OK
+##        resp1=ctypes.windll.user32.MessageBoxW(0, f"{self.request.get_full_path_info()}", "Mensagem Python", 0)# 0 : OK
+
         #Redefine o parâmetro da session 'temalist_filtro_cat' como o parâmetro passado pela url, parâmetro 'categoria'
         self.request.session['temalist_filtro_cat'] = self.filtro_cat_url
 
@@ -447,21 +452,25 @@ class TemaComentDetailView(generic.DetailView):
     template_name = 'estudoa/temacoment_detail.html'  # Specify your own template name/location
 
 
-#  INDIVIDUAL CREATE ################################################################################################################        INDIVIDUAL CREATE
-class TemaComentCreate(CreateView):
-    model = TemaComent
-    fields = ['tema', 'coment']
+#  INDIVIDUAL CREATE MULTIPLE ################################################################################################################        INDIVIDUAL CREATE MULTIPLE
+def TemaComentCreate(request):
+    #Guarda o id do tema para criar os TemaComents de comentários já existentes selecionados (select multiple)
+    tmpTema=request.GET.get('tema',1)
+    #verifica o método de chamada GET ou POST
+    if request.method == 'GET':
+        context = {'form': TemaComentCreateForm(initial={'tema':tmpTema},)}#inicializa o formulário em branco
+        return render(request, 'estudoa/temacoment_form.html', context)
+    elif request.method == 'POST':
+        form = TemaComentCreateForm(request.POST) #iniciliza o formulário com os dados selecionadas pelo usuário
+        #insere os registros dos comentários selecionados pelo usuário para o tema (tmpTema)
+        for cmt in form['coment'].data:
+            tmpTemaCmt = TemaComent(tema= Tema.objects.get(pk=tmpTema), coment= Coment.objects.get(pk=cmt))
+            tmpTemaCmt.save()
+        return redirect(reverse_lazy('tema-detail', kwargs={'pk': tmpTema}))
 
-    # fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff----get_success_url
-    def get_success_url(self):
-         return reverse_lazy('tema-detail', kwargs={'pk': self.request.GET.get('tema',1)})
-
-    # fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff----get_initial
-    def get_initial(self):
-        return {
-            'tema':self.request.GET.get('tema',1),
-        }
-
+#        resp1=ctypes.windll.user32.MessageBoxW(0, f"Request method: GET", "Mensagem Python", 0)# 0 : OK
+#        resp1=ctypes.windll.user32.MessageBoxW(0, f"Request method: POST", "Mensagem Python", 0)# 0 : OK
+#        resp1=ctypes.windll.user32.MessageBoxW(0, f"{form['coment'].data}\n{type(form['coment'].data)}", "Mensagem Python", 0)# 0 : OK
 
 #  INDIVIDUAL DELETE ################################################################################################################        INDIVIDUAL DELETE
 class TemaComentDelete(DeleteView):
@@ -478,22 +487,28 @@ class TemaComentDelete(DeleteView):
 ##    OUTRO TEMA **********************************************************************************************************************************************************************    OUTRO TEMA
 def OutroTema(request):
 
-    # Captura do parâmetro outrotema da URL
+    # Captura do parâmetro outrotema da URL onde está a categoria do tema e sua respectiva página separadas por um espaço em branco
+    #A categoria em especial, "O laboratório 11" (por exemplo) deve ser parseada de forma distinta das demais,
+    #pois tem um len() igual a 3 e as demais tem um len() igual a dois
     outrotema = request.GET.get('outrotema',"teoria 1") #caso não encontre retorna o padrão, Teoria 1
     tmp1=outrotema.split()
     if len(tmp1)==3:
-        tmpcat=tmp1[0]+ ' ' + tmp1[1]
-        tmppag=int(tmp1[2])
+        tmpcat=tmp1[0]+ ' ' + tmp1[1] # categoria "O Laboratório"
+        tmppag=int(tmp1[2]) #página
     else:
-        tmpcat=tmp1[0]
-        tmppag=int(tmp1[1])
+        tmpcat=tmp1[0]# demais categoria
+        tmppag=int(tmp1[1])# página
 
+    #queryset que recupera o respectivo tema a partir de sua categoria/pg
     tmptema = Tema.objects.filter(categoria__iexact=tmpcat).filter(pagina__exact=tmppag)
+
+    #em caso de algum problema retorna um queryset com o primeiro tema "Teoria 1"
     if len(tmptema)!=1:
         tmptema = Tema.objects.filter(categoria__iexact='teoria').filter(pagina__exact=1)
 
 
-    # Render the HTML template
+    # Render the HTML template e redireciona para o tema recuperado tema/id que por sua vez é
+    #direcionada para TemaDetailView()
     return redirect(tmptema[0])
 
 ##    CI *********************************************************************************************************************************************************************    CI
