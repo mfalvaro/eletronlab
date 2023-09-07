@@ -7,9 +7,16 @@
   <!-- Add additional CSS, img in static files -->
   {% load static %}
   <h3>Comentário</h3>
-
   <p><strong>Assunto:</strong> {{ coment.assunto }} </p> <!-- author detail link not yet defined -->
-  <p><strong>Detalhe:</strong> {{ coment.detalhe }}</p>
+  {% if coment.assunto == 'outro tema' %}
+	<p><strong>Detalhe:</strong> <a href="{% url 'outro_tema' %}?outrotema={{ coment.detalhe }}">{{ coment.detalhe }}</a> </p>
+  {% elif coment.assunto == 'ci' %}
+	<p><strong>Detalhe:</strong> <a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/ci/ci_{{ coment.detalhe }}.jpg">{{ coment.detalhe }}</a> </p>
+  {% elif coment.assunto == 'projeto' %}
+	<p><strong>Detalhe:</strong> <a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/projetos/{{ coment.detalhe }}.jpg">{{ coment.detalhe }}</a> </p>
+  {% else %}
+	<p><strong>Detalhe:</strong> {{ coment.detalhe }} </p>
+  {% endif %}	
 
   <div style="margin-left:20px;margin-top:20px">
     <h4>Temas</h4>

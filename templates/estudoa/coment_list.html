@@ -54,6 +54,10 @@
 		  <li>
 			<a href="{{ c.get_absolute_url }}">{{ c.assunto }}</a> :: <a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/ci/ci_{{ c.detalhe }}.jpg">{{ c.detalhe }}</a>
 		  </li>			
+		{% elif c.assunto == 'projeto' %}
+		  <li>
+			<a href="{{ c.get_absolute_url }}">{{ c.assunto }}</a> :: <a href="https://www.gpsgeologia.com.br/paginas/alvaro/eletronlab/projetos/{{ c.detalhe }}.jpg">{{ c.detalhe }}</a>
+		  </li>			
 		{% else %}
 		  <li>
 			<a href="{{ c.get_absolute_url }}">{{ c.assunto }}::{{ c.detalhe }}</a>
