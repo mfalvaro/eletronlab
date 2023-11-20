@@ -41,8 +41,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '6-gth!ei78h8&93+wxsm(priow%r%e
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
-#DEBUG = False
-DEBUG = os.environ.get('DJANGO_DEBUG', 'False')    # != 'False'
+DEBUG = False
+#DEBUG = os.environ.get('DJANGO_DEBUG', 'False')    # != 'False'
 
 #ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = ['127.0.0.1', 'eletronlab.herokuapp.com', '*.herokuapp.com']
